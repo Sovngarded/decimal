@@ -1,10 +1,19 @@
 #ifndef S21_DECIMAL_H
 #define S21_DECIMAL_H
 
+#define MAX4BITE 0xffffffff
+typedef struct 
+{
+    uint64_t bits[7];
+    uint64_t scale;
+    int sing
+} s21_big_decimal;
+
 typedef struct 
 {
     int bits[4];
 } s21_decimal;
+
 
 //Arithmetic Operators
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
