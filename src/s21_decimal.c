@@ -10,15 +10,17 @@
 
 
 
-int main(){
+
 
 // --------------------- get scale -----------------------
+int get_scale(s21_decimal s21_decimal){
 //  s21_decimal decimal1 = {{0x00190000, 0, 0, 0}};
-//  int scale = decimal1.bits[0] & SCALEBITE;
-// //  int new = scale >>16;
-//  scale >>= 16;
+ int scale = s21_decimal.bits[0] & SCALEBITE;
+//  int new = scale >>16;
+ scale >>= 16;
+ return scale;
 //  printf("%d",scale);
-
+}
 // --------------------- set scale -----------------------
 
 // s21_decimal decimal1 =  {{0x00000000, 0x00000000, 0x00000000, 0x140000}};
@@ -30,13 +32,29 @@ int main(){
 // scale = decimal1.bits[3] & SCALEBITE;
 // printf("\n%d", scale >> 16); 
 // // printf("%d", new_scale); 
-
+int main(){
 // --------------------- convert to big decimal -----------------------
 
-// s21_decimal decimal1 =  {{0x00000000, 0x00000000, 0x00000000, 0x140000}};
-// s21_big_decimal decimal2 = {{0,0,0,0,0,0,0,0,0}};
+s21_decimal decimal1 =  {{0x140000, 0x140000, 0x00000000, 0x140000}};
+s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};
+for(int i = 0;i<3;i++){
+    decimal2.bits[i] = decimal1.bits[i] & MAX4BITE;
+}
+
+decimal2.scale = get_scale(decimal1);
 
 
+
+// for(int i =0 ; i<7;i++){
+// for(int j = 0; j<64;j++){
+//     if (decimal2.bits[i] & first) printf("1"); else printf("0"); if (j%8 == 0) printf("\n"); ///// check for correct work , but dunno if it's true
+//     decimal2.bits[i] >>=1;
+// }
+// }
+
+
+
+}
 // --------------------- decimal to int -----------------------
 // s21_decimal decimal1 = {{0002, 0002, 0, 0x140000}};
 // long long int sum = 0;
