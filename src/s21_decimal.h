@@ -1,12 +1,13 @@
 #ifndef S21_DECIMAL_H
 #define S21_DECIMAL_H
 
+#include "stdint.h"
 #define MAX4BITE 0xffffffff
 typedef struct 
 {
     uint64_t bits[7];
     uint64_t scale;
-    int sing
+    int sing;
 } s21_big_decimal;
 
 typedef struct 
@@ -14,6 +15,12 @@ typedef struct
     int bits[4];
 } s21_decimal;
 
+enum bits {
+    LOW,
+    MID,
+    HIGH,
+    SCALE
+};
 
 //Arithmetic Operators
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
@@ -40,5 +47,22 @@ int s21_floor(s21_decimal value, s21_decimal *result);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_negate(s21_decimal value, s21_decimal *result);
+
+
+
+
+//BIT
+int s21_get_bit(s21_decimal number, int bit_position);
+//int s21_get_highest_bit(s21_decimal number);
+void s21_set_bit(unsigned int *source_number, int bit_position, int bit);
+
+//SIGN
+int s21_get_sign(s21_decimal number);
+void s21_set_sign(s21_decimal *number, int sign);
+
+//SCALE
+int s21_get_scale(s21_decimal number);
+void s21_set_scale(s21_decimal *number, int scale);
+
 
 #endif  //S21_DECIMAL_H
