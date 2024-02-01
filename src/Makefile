@@ -16,12 +16,12 @@ $(TARGET):
 	$(CC) ${CFLAGS} -c ${FILES}
 	ar rc libs21_string.a s21*.o
 	ranlib libs21_string.a
-	cp libs21_string.a s21_string.a
+	cp libs21_string.a s21_decimal.a
 
 test: $(TARGET)
-	$(CC) test.c ${CFLAGS} ${FILES} ${FILE_TESTS} s21_string.h ${TEST_FLAGS} -o s21_string --coverage
+	$(CC) test.c ${CFLAGS} ${FILES} ${FILE_TESTS} s21_decimal.h ${TEST_FLAGS} -o s21_decimal --coverage
 	@echo "---------------------------TESTS--------------------------------------" 
-	./s21_string
+	./s21_decimal
 	@echo "----------------------------------------------------------------------"
 
 gcov_report: test 

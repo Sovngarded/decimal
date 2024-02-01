@@ -2,6 +2,7 @@
 #define S21_DECIMAL_H
 #include <stdint.h>
 #include "stdint.h"
+
 #define MAX4BITE 0xffffffff
 #define MINUS 0x80000000
 #define SCALEBITE 0x00ff0000
@@ -14,8 +15,6 @@ typedef struct
 } s21_big_decimal;
 
 // scale = bits[4] & SCALEBITE;
-
-
 
 typedef struct 
 {
@@ -54,8 +53,6 @@ int s21_floor(s21_decimal value, s21_decimal *result);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_negate(s21_decimal value, s21_decimal *result);
-
-
 
 
 //BIT
