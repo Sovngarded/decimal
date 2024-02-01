@@ -1,13 +1,19 @@
 #ifndef S21_DECIMAL_H
 #define S21_DECIMAL_H
-
+#include <stdint.h>
 #define MAX4BITE 0xffffffff
+#define MINUS 0x80000000
+#define SCALEBITE 0x00ff0000
+
 typedef struct 
 {
     uint64_t bits[7];
     uint64_t scale;
-    int sing
+    // int sing;
 } s21_big_decimal;
+
+
+
 
 typedef struct 
 {
