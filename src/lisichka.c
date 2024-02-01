@@ -53,7 +53,7 @@ int is_zero(s21_decimal number) {
 }
 
 int is_overflow(s21_big_decimal big_number) {
-    int result = TRUE;
+    int result = FALSE;
     int overflow = 0;
     for(int i = 0; i < 7; i++) {
         big_number.bits[i] += overflow;
@@ -61,18 +61,30 @@ int is_overflow(s21_big_decimal big_number) {
         big_number.bits[i] &= MAX4BITE;
     }
     if(overflow != 0) {
-        result = FALSE;
+        result = TRUE;
     }
     return result;
 }
 
-// void left_shift(){
+void left_shift(s21_big_decimal* big_number) {
+    for(int i = 0; i < 7; i++) {
+        big_number->bits[i] *= 10;
+    }
+    if(is_overflow(*big_number) != TRUE) {
+        big_number->scale++;
+    }
+}
 
-// }
+void right_shift(s21_big_decimal* big_number) {
+    int remainder = 0;
+    for(int i = 6; i < 0; i--) {
+        big_number->bits[i] += remainder << 32;
+        remainder = big_number->bits[1] % 10;
+        big_number->bits[1] /= 10;
+    }
+    big_number->scale--;
 
-// void right_shift(){
-    
-// }
+}
 
 int main() {
     // 0.00000
