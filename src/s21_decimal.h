@@ -12,7 +12,7 @@
 typedef struct 
 {
     uint64_t bits[7];
-    uint64_t scale;
+    uint16_t scale;
     // int sing;
 } s21_big_decimal;
 
