@@ -12,6 +12,7 @@ typedef struct
     // int sing;
 } s21_big_decimal;
 
+// scale = bits[4] & SCALEBITE;
 
 
 
