@@ -6,6 +6,8 @@
 #define MAX4BITE 0xffffffff
 #define MINUS 0x80000000
 #define SCALEBITE 0x00ff0000
+#define FALSE 0
+#define TRUE 1
 
 typedef struct 
 {

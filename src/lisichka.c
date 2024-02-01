@@ -15,10 +15,6 @@ void s21_set_sign(s21_decimal *number, int sign) {
     }
 }
 
-int s21_get_bit(s21_decimal number, int bit_position) {
-    int bit = (number.bits[bit_position / 32] >>  bit_position % 32) & 1u;
-    return bit;
-}
 // int s21_get_bit(s21_decimal number, int bit_position) {
 //     int mask = (1u <<= (bit_position % 32));
 //     printf("mask =%u=\n", mask);
@@ -48,11 +44,43 @@ void s21_set_bit(int *number, int bit_position, int bit) {
     }
 }
 
+int is_zero(s21_decimal number) {
+    int result = FALSE;
+    if(number.bits[LOW] == 0 && number.bits[MID] == 0 && number.bits[HIGH] == 0) {
+        result = TRUE;
+    }
+    return result;
+}
+
+int is_overflow(s21_big_decimal big_number) {
+    int result = TRUE;
+    int overflow = 0;
+    for(int i = 0; i < 7; i++) {
+        big_number.bits[i] += overflow;
+        overflow = big_number.bits[i] >> 32;
+        big_number.bits[i] &= MAX4BITE;
+    }
+    if(overflow != 0) {
+        result = FALSE;
+    }
+    return result;
+}
+
+// void left_shift(){
+
+// }
+
+// void right_shift(){
+    
+// }
+
 int main() {
+    // 0.00000
+    s21_decimal decimal2 = {{0x0, 0x0, 0x0, 0x50000}};
+    // 0
+    s21_decimal check = {{0x0, 0x0, 0x0, 0x0}};
+
     s21_decimal number = {{0x55555555, 0x55555555, 0x0, 0x80000000}};
-    //s21_get_bit(number, 6);
     printf("%d\n", s21_get_bit(number, 5));
-    printf("%d\n", s21_get_bit(number, 34));
-    printf("%d\n", s21_get_bit(number, 7));
     return 0;
 }
