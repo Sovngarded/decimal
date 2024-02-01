@@ -67,23 +67,26 @@ int is_overflow(s21_big_decimal big_number) {
 }
 
 void left_shift(s21_big_decimal* big_number) {
+     s21_big_decimal copy_num = *big_number;
     for(int i = 0; i < 7; i++) {
-        big_number->bits[i] *= 10;
+        copy_num.bits[i] *= 10;
     }
+
     if(is_overflow(*big_number) != TRUE) {
         big_number->scale++;
+        *big_number = copy_num;
     }
 }
 
-void right_shift(s21_big_decimal* big_number) {
+int right_shift(s21_big_decimal* big_number) {
     int remainder = 0;
     for(int i = 6; i < 0; i--) {
         big_number->bits[i] += remainder << 32;
         remainder = big_number->bits[1] % 10;
-        big_number->bits[1] /= 10;
+        big_number->bits[i] /= 10;
     }
     big_number->scale--;
-
+    return remainder;
 }
 
 int main() {

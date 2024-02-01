@@ -9,9 +9,6 @@
 
 
 
-
-
-
 // --------------------- get scale -----------------------
 int get_scale(s21_decimal s21_decimal){
 //  s21_decimal decimal1 = {{0x00190000, 0, 0, 0}};
