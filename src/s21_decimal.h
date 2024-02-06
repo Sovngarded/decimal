@@ -81,4 +81,7 @@ s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int sca
 
 int is_overflow(s21_big_decimal big_number);
 
+s21_big_decimal right_shift_normal(s21_big_decimal big_number);
+s21_big_decimal left_shift(s21_big_decimal big_number);
+
 #endif  //S21_DECIMAL_H

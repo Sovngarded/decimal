@@ -45,59 +45,18 @@ int s21_get_sign(s21_decimal number) {
 
 
 
-s21_big_decimal left_shift(s21_big_decimal big_number) {
-     s21_big_decimal copy_num = big_number;
-    for(int i = 0; i < 7; i++) {
-        copy_num.bits[i] *= 10;
-    }
-
-    if(is_overflow(big_number) != TRUE) {
-        big_number.scale++;
-        big_number = copy_num;
-    }
-    return big_number; // ???
-}
-
-int right_shift(s21_big_decimal* big_number) {
-    long int remainder = 0;
-    for(int i = 6; i < 0; i--) {
-        big_number->bits[i] += (remainder << 32);
-        remainder = big_number->bits[1] % 10;
-        big_number->bits[i] /= 10;
-    }
-    big_number->scale--;
-    return remainder;
-}
 
 
-s21_big_decimal right_shift_normal(s21_big_decimal big_number) {
-    long int remainder = 0;
-    for(int i = 6; i < 0; i--) {
-        big_number.bits[i] += (remainder << 32);
-        remainder = big_number.bits[1] % 10;
-        big_number.bits[i] /= 10;
-    }
-    big_number.scale--;
-    return big_number;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// int right_shift(s21_big_decimal* big_number) {
+//     long int remainder = 0;
+//     for(int i = 6; i < 0; i--) {
+//         big_number->bits[i] += (remainder << 32);
+//         remainder = big_number->bits[1] % 10;
+//         big_number->bits[i] /= 10;
+//     }
+//     big_number->scale--;
+//     return remainder;
+// }
 
 
 
@@ -123,19 +82,19 @@ s21_big_decimal right_shift_normal(s21_big_decimal big_number) {
 int main(){
 // --------------------- convert to big decimal -----------------------
 
-// 0.5
-    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x10000}};
-    // 0
-    s21_decimal decimal2 = {{0x5, 0x0, 0x0, 0x0}};
+ // 1
+    s21_decimal decimal1 = {{0x1, 0x0, 0x0, 0x0}};
     // 0.5
-    s21_decimal check = {{0x001, 0x0, 0x0, 0x10000}};
+    s21_decimal decimal2 = {{0x5, 0x0, 0x0, 0x10000}};
+    // 1.5
+    s21_decimal check = {{0xF, 0x0, 0x0, 0x10000}};
 
 s21_decimal* decimal3 = malloc(sizeof(int)*4);
 
 
 // s21_decimal check = {{0xA7FFFC17, 0x9B5C85F2, 0x50C783EB, 0x1C0000}};
 
-// s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};
+// s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};     
 // printf("%d", s21_is_less(decimal1,decimal2));
 s21_add(decimal1,decimal2, decimal3);
 // printf("%d",s21_is_equal(*decimal3,check));
