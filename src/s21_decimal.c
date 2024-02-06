@@ -161,7 +161,36 @@ s21_decimal convert_to_decimal(s21_big_decimal value) {
 //     return remainder;
 // }
 
+void left_shift_pointer(s21_big_decimal* big_number) {
+     s21_big_decimal copy_num = *big_number;
+    for(int i = 0; i < 7; i++) {
+        copy_num.bits[i] *= 10;
+    }
 
+    if(is_overflow(*big_number) != TRUE) {
+        big_number->scale++;
+        *big_number = copy_num;
+    }
+}
+
+s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n){
+    s21_big_decimal result = value_1;
+
+    printf("\n\nset_scale_and_number\nscale = %d and new = %d", scale, scale_n);
+    if(scale < scale_n){
+        for(int i = scale;i < scale_n;i++){
+            printf("left");
+            result = left_shift(value_1);
+        }
+    } else if(scale > scale_n) {
+        for(int i = scale;i >= scale_n;i--){
+            printf("right");
+           result = right_shift_normal(value_1); 
+        }
+    }
+
+    return result;
+}
 enum ArithmeticErrorsCode {
     OK,
     INF,  // number is too large or equal to infinity
@@ -187,6 +216,16 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
         *result = value_1;
         return OK;
     }
+     printf("start val1 = %d %d %d %d =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.bits[3]);
+    printf("start val2 = %d %d %d %d =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.bits[3]);
+
+    int s = normalize_scale(value_1, value_2);
+    value_big_1 = set_scale_and_number(value_big_1, get_scale(value_1), s);
+    value_big_2 = set_scale_and_number(value_big_2, get_scale(value_2), s);
+
+    printf("\nval1 = %d %d %d %d =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.bits[3]);
+    printf("val2 = %d %d %d %d =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.bits[3]);
+
 
     if(s21_get_sign(value_1) == s21_get_sign(value_2)){
         for(int i=0; i < 3; i++) {
@@ -206,6 +245,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
         //return OK;
     }
 
+    
+
     //result_big.bits[3] = 0x80000000;
     is_overflow_pointer(&result_big);
     
@@ -219,22 +260,20 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
     return OK;                                                                                                                   
 }
 
-s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n){
-    s21_big_decimal result = value_1;
-    if(scale < scale_n){
-        for(int i = scale;i<=scale_n;i++){
-            left_shift(result);
-        }
-    }else{
-        for(int i = scale;i>=scale_n;i--){
-           right_shift_normal(result); 
-        }
+// s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n){
+//     s21_big_decimal result = value_1;
+//     if(scale < scale_n){
+//         for(int i = scale;i<=scale_n;i++){
+//             left_shift(result);
+//         }
+//     }else{
+//         for(int i = scale;i>=scale_n;i--){
+//            right_shift_normal(result); 
+//         }
 
-
-
-    }
-    return result;
-}
+//     }
+//     return result;
+// }
 
 
 // < nado fix sdelat chto kogda ravno ono toje 0 vozvrashaet
