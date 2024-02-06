@@ -5,7 +5,8 @@
 #include <math.h>
 
 #define first 0x00000001
-
+#define FALSE 0
+#define TRUE 1
 
 
 int s21_get_sign(s21_decimal number) {
@@ -13,73 +14,104 @@ int s21_get_sign(s21_decimal number) {
         return sign;
     }
 
-void s21_set_sign(s21_decimal *number, int sign) {
-    if(sign == 1){
-        number->bits[SCALE] |= MINUS;
-    }
-    if(sign == 0){
-        number->bits[SCALE] &= ~MINUS;
-    }
-}
+// void s21_set_sign(s21_decimal *number, int sign) {
+//     if(sign == 1){
+//         number->bits[SCALE] |= MINUS;
+//     }
+//     if(sign == 0){
+//         number->bits[SCALE] &= ~MINUS;
+//     }
+// }
 
-void s21_set_bit(int *number, int bit_position, int bit) {
-    int mask = 1; 
-    mask <<= bit_position;
+// void s21_set_bit(int *number, int bit_position, int bit) {
+//     int mask = 1; 
+//     mask <<= bit_position;
 
-    if(bit == 0) {
-        mask = ~mask;
-        *number &= mask;
-    }
+//     if(bit == 0) {
+//         mask = ~mask;
+//         *number &= mask;
+//     }
 
-    if(bit == 1) {
-        *number |= mask;
-    }
-}
+//     if(bit == 1) {
+//         *number |= mask;
+//     }
+// }
 
 
 
-// PURE SHITCODE  LOL
+
+// int is_zero(s21_decimal number) {
+//     int result = FALSE;
+//     if(number.bits[LOW] == 0 && number.bits[MID] == 0 && number.bits[HIGH] == 0) {
+//         result = TRUE;
+//     }
+//     return result;
+// }
+
+// int is_overflow(s21_big_decimal big_number) {
+//     int result = FALSE;
+//     int overflow = 0;
+//     for(int i = 0; i < 7; i++) {
+//         big_number.bits[i] += overflow;
+//         overflow = big_number.bits[i] >> 32;
+//         big_number.bits[i] &= MAX4BITE;
+//     }
+//     if(overflow != 0) {
+//         result = TRUE;
+//     }
+//     return result;
+// }
+
+// void left_shift(s21_big_decimal* big_number) {
+//      s21_big_decimal copy_num = *big_number;
+//     for(int i = 0; i < 7; i++) {
+//         copy_num.bits[i] *= 10;
+//     }
+
+//     if(is_overflow(*big_number) != TRUE) {
+//         big_number->scale++;
+//         *big_number = copy_num;
+//     }
+// }
+
+// int right_shift(s21_big_decimal* big_number) {
+//     int remainder = 0;
+//     for(int i = 6; i < 0; i--) {
+//         big_number->bits[i] += remainder << 32;
+//         remainder = big_number->bits[1] % 10;
+//         big_number->bits[i] /= 10;
+//     }
+//     big_number->scale--;
+//     return remainder;
+// }
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
-    // s21_big_decimal value_1_b = s21_decimal_to_big(value1);
-    // s21_big_decimal value_2_b = s21_decimal_to_big(value2);
-    // s21_big_decimal value_3_b = s21_decimal_to_big(result);
-    int flag = 0;
-    for(int i =0;i<7;i++){
-    for(int j = 0; j<64;i++){
-
-        if((value_1_b >>j & first) == 0 && (value_2_b>>j & first) == 0 && flag = 0) 
-        {
-            s21_set_bit(value_3_b,j,0); 
+    if(s21_get_sign(value_1) == s21_get_sign(value_2)){
+        for(int i =0; i<3;i++){
+            result->bits[i] = value_1.bits[i] + value_2.bits[i];
         }
-        else if ((value_1_b >>j & first) == 0 && (value_2_b>>j & first) == 0 && flag = 1) 
-        { 
-            s21_set_bit(value_3_b,j,0); flag = 0;
-        }
+            
 
 
 
-        if( (value_1_b >>j & first) == 1 && (value_2_b>>j & first) == 0 && flag = 0) || ((value_1_b & first) == 0 && (value_1_b & first) == 1 && flag = 0) 
-        {
-            s21_set_bit(value_3_b,j,1);
-        }
+        
+        // else{ 
+        //     for(int i = 0;i<3;i++){
+        //         if(value_1.bits[i] > value_2.bits[i]){
 
-        else if ((value_1_b >>j & first) == 1 && (value_2_b>>j & first) == 0 && flag = 1) || ((value_1_b & first) == 0 && (value_1_b & first) == 1 && flag = 1)
-        {
-           s21_set_bit(value_3_b,j,0); 
-        }
+        //         }
+                                
 
-
-
-        if((value_1_b >>j & first) == 1 && (value_2_b>>j & first) == 1) 
-        {
-            s21_set_bit(value_3_b,j,0); flag = 1;
-        }
+    }
     
+return 0;
 
-    }
-    }
+
 }
+
+
+
+
 
 
 
@@ -108,14 +140,30 @@ int get_scale(s21_decimal s21_decimal){
 int main(){
 // --------------------- convert to big decimal -----------------------
 
-s21_decimal decimal1 =  {{0x140000, 0x140000, 0x00000000, 0x140000}};
-s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};
-for(int i = 0;i<3;i++){
-    decimal2.bits[i] = decimal1.bits[i] & MAX4BITE;
-}
+s21_decimal decimal1 =  {{0x8, 0x0, 0x0, 0x0}};
+s21_decimal decimal2 =  {{0x8, 0x0, 0x0, 0x0}};
 
-decimal2.scale = get_scale(decimal1);
+s21_decimal check = {{0x0010, 0x0, 0x0, 0x0}};
+// s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};
+// for(int i = 0;i<3;i++){
+//     decimal2.bits[i] = decimal1.bits[i] & MAX4BITE;
+// }
 
+// decimal2.scale = get_scale(decimal1);
+
+
+s21_add(decimal1,decimal2,result);
+
+printf("%d\n%d",check.bits[0],result->bits[0]);
+
+
+// for(int i = 0;i<3;i++){
+//     if(decimal1.bits[i] >= decimal2.bits[i]){
+//         printf("true \n");
+//     }else{
+//         printf("false");
+//     }
+// }
 
 
 // for(int i =0 ; i<7;i++){
