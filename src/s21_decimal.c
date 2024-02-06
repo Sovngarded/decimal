@@ -37,30 +37,27 @@ int s21_get_sign(s21_decimal number) {
 //     }
 // }
 
+int is_zero(s21_decimal number) {
+    int result = FALSE;
+    if(number.bits[LOW] == 0 && number.bits[MID] == 0 && number.bits[HIGH] == 0) {
+        result = TRUE;
+    }
+    return result;
+}
 
-
-
-// int is_zero(s21_decimal number) {
-//     int result = FALSE;
-//     if(number.bits[LOW] == 0 && number.bits[MID] == 0 && number.bits[HIGH] == 0) {
-//         result = TRUE;
-//     }
-//     return result;
-// }
-
-// int is_overflow(s21_big_decimal big_number) {
-//     int result = FALSE;
-//     int overflow = 0;
-//     for(int i = 0; i < 7; i++) {
-//         big_number.bits[i] += overflow;
-//         overflow = big_number.bits[i] >> 32;
-//         big_number.bits[i] &= MAX4BITE;
-//     }
-//     if(overflow != 0) {
-//         result = TRUE;
-//     }
-//     return result;
-// }
+int is_overflow(s21_big_decimal big_number) {
+    int result = FALSE;
+    int overflow = 0;
+    for(int i = 0; i < 7; i++) {
+        big_number.bits[i] += overflow;
+        overflow = big_number.bits[i] >> 32;
+        big_number.bits[i] &= MAX4BITE;
+    }
+    if(overflow != 0) {
+        result = TRUE;
+    }
+    return result;
+}
 
 // void left_shift(s21_big_decimal* big_number) {
 //      s21_big_decimal copy_num = *big_number;
@@ -85,27 +82,49 @@ int s21_get_sign(s21_decimal number) {
 //     return remainder;
 // }
 
+
+enum ArithmeticErrorsCode {
+    OK,
+    INF,  // number is too large or equal to infinity
+    NEG_INF,  // the number is too small or equal to negative infinity
+    DIV_BY_ZERO
+};
+
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
+
+    s21_big_decimal value_big_1 = convert_to_big_decimal(value_1);
+    s21_big_decimal value_big_2 = convert_to_big_decimal(value_2);
+    s21_big_decimal result_big = convert_to_big_decimal(result);
+
+    if (is_zero(value_1) == TRUE) {
+        *result = value_2;
+        return OK;
+    } else if (is_zero(value_2) == TRUE) 
+    {
+        *result = value_1;
+        return OK;
+    }
+
     if(s21_get_sign(value_1) == s21_get_sign(value_2)){
-        for(int i =0; i<3;i++){
+        for(int i=0; i<3; i++) {
             result->bits[i] = value_1.bits[i] + value_2.bits[i];
         }
-            
-
-
-
-        
-        // else{ 
-        //     for(int i = 0;i<3;i++){
-        //         if(value_1.bits[i] > value_2.bits[i]){
-
-        //         }
-                                
-
+        //return OK;
+    } else {
+        if(s21_is_less(value_1, value_2) == TRUE) {
+            for(int i=0; i<3; i++) {
+                result->bits[i] = value_2.bits[i] - value_1.bits[i];
+            }
+        } else {
+            for(int i=0; i<3; i++) {
+                result->bits[i] = value_1.bits[i] - value_2.bits[i];
+            }
+        }
+        //return OK;
     }
-    
-return 0;
 
+    //is_
+    
 
 }
 
@@ -149,7 +168,7 @@ s21_decimal check = {{0x0010, 0x0, 0x0, 0x0}};
 // decimal2.scale = get_scale(decimal1);
 
 
-s21_add(decimal1,decimal2,result);
+// s21_add(decimal1,decimal2,result);
 
 printf("%d\n%d",check.bits[0],result->bits[0]);
 
