@@ -5,6 +5,9 @@
 #define MAX4BITE 0xffffffff
 #define MINUS 0x80000000
 #define SCALEBITE 0x00ff0000
+#define first 0x00000001
+#define FALSE 0
+#define TRUE 1
 
 typedef struct 
 {
@@ -71,5 +74,11 @@ void s21_set_sign(s21_decimal *number, int sign);
 int s21_get_scale(s21_decimal number);
 void s21_set_scale(s21_decimal *number, int scale);
 
+
+s21_big_decimal convert_to_big_decimal(s21_decimal value_1);
+int normalize_scale(s21_decimal value_1,s21_decimal value_2);
+s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n);
+
+int is_overflow(s21_big_decimal big_number);
 
 #endif  //S21_DECIMAL_H

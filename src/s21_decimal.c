@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "s21_decimal.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define first 0x00000001
 #define FALSE 0
@@ -37,37 +38,12 @@ int s21_get_sign(s21_decimal number) {
 //     }
 // }
 
-int get_scale(s21_decimal s21_decimal){
-//  s21_decimal decimal1 = {{0x00190000, 0, 0, 0}};
- int scale = s21_decimal.bits[0] & SCALEBITE;
-//  int new = scale >>16;
- scale >>= 16;
- return scale;
-//  printf("%d",scale);
-}
 
 
-// int is_zero(s21_decimal number) {
-//     int result = FALSE;
-//     if(number.bits[LOW] == 0 && number.bits[MID] == 0 && number.bits[HIGH] == 0) {
-//         result = TRUE;
-//     }
-//     return result;
-// }
 
-int is_overflow(s21_big_decimal big_number) {
-    int result = FALSE;
-    int overflow = 0;
-    for(int i = 0; i < 7; i++) {
-        big_number.bits[i] += overflow;
-        overflow = big_number.bits[i] >> 32;
-        big_number.bits[i] &= MAX4BITE;
-    }
-    if(overflow != 0) {
-        result = TRUE;
-    }
-    return result;
-}
+
+
+
 
 s21_big_decimal left_shift(s21_big_decimal big_number) {
      s21_big_decimal copy_num = big_number;
@@ -106,15 +82,6 @@ s21_big_decimal right_shift_normal(s21_big_decimal big_number) {
 }
 
 
-int normalize_scale(s21_decimal value_1,s21_decimal value_2){
-    int result = 0;
-    int scale_1 = s21_get_sign(value_1); int scale_2 = s21_get_sign(value_2);
-    
-    if(scale_1 > scale_2 && scale_1 <= 28) result = scale_1;
-    // if(scale_1 > scale_2 && scale_1 > 28) result = 28;
-    if(scale_1 > 28 && scale_2 > 28) result = 28;
-    if(scale_1 < scale_2 && scale_2 <= 28) result = scale_2;
-    // if(scale_1 < scale_2 && scale_2 > 28) result = 28;
 
 
 
@@ -123,117 +90,11 @@ int normalize_scale(s21_decimal value_1,s21_decimal value_2){
 
 
 
-    return result;
-}
-
-s21_big_decimal convert_to_big_decimal(s21_decimal value_1){
-    s21_big_decimal result;
-
-
-    for(int i = 0;i<3;i++){
-    result.bits[i] = value_1.bits[i] & MAX4BITE;
-    }
-
-
-    return result;
-}
-
-
-int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
-    if(s21_get_sign(value_1) == s21_get_sign(value_2)){
-        for(int i =0; i<3;i++){
-            result->bits[i] = value_1.bits[i] + value_2.bits[i];
-        }
-            
-
-
-
-        
-        // else{ 
-        //     for(int i = 0;i<3;i++){
-        //         if(value_1.bits[i] > value_2.bits[i]){
-
-        //         }
-                                
-
-    }
-    
-return 0;
-}
-
-s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n){
-    s21_big_decimal result = value_1;
-    if(scale < scale_n){
-        for(int i = scale;i<=scale_n;i++){
-            left_shift(result);
-        }
-    }else{
-        for(int i = scale;i>=scale_n;i--){
-           right_shift_normal(result); 
-        }
-
-
-
-    }
-    
-
-
-
-    return result;
-}
-
-
-// < nado fix sdelat chto kogda ravno ono toje 0 vozvrashaet
-int s21_is_less(s21_decimal value_1, s21_decimal value_2){  
-    int result = 1;
-
-    s21_big_decimal value_1_b = convert_to_big_decimal(value_1);
-    s21_big_decimal value_2_b = convert_to_big_decimal(value_2);
-    int scale_1 = get_scale(value_1);
-    int scale_2 = get_scale(value_2);
 
 
 
 
-    int needed_scale = normalize_scale(value_1,value_2);
-    value_1_b = set_scale_and_number(value_1_b, scale_1, needed_scale);
-    value_2_b = set_scale_and_number(value_2_b, scale_2, needed_scale);
 
-
-    for(int i = 3;i >= 0; i--){
-        if(value_1_b.bits[i] > value_2_b.bits[i]){
-            result = 0;
-            break;
-        }
-    }
-    
-return result;
-
-}
-
-int s21_is_equal(s21_decimal value_1, s21_decimal value_2){
-    int result = 1;
-    
-    s21_big_decimal value_1_b = convert_to_big_decimal(value_1);
-    s21_big_decimal value_2_b = convert_to_big_decimal(value_2);
-    int scale_1 = get_scale(value_1);
-    int scale_2 = get_scale(value_2);
-    int needed_scale = normalize_scale(value_1,value_2);
-    value_1_b = set_scale_and_number(value_1_b, scale_1, needed_scale);
-    value_2_b = set_scale_and_number(value_2_b, scale_2, needed_scale);
-
-    for(int i = 0; i<3;i++){
-        if(value_1_b.bits[i] != value_2_b.bits[i]){
-            result = 0;
-            break;
-        }
-    }
-    
-
-
-
-    return result;
-}
 
 
 
@@ -262,12 +123,31 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2){
 int main(){
 // --------------------- convert to big decimal -----------------------
 
-s21_decimal decimal1 =  {{0x7, 0x8, 0x0, 0x0}};
-s21_decimal decimal2 =  {{0x8, 0x8, 0x0, 0x0}};
+// 0.5
+    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x10000}};
+    // 0
+    s21_decimal decimal2 = {{0x5, 0x0, 0x0, 0x0}};
+    // 0.5
+    s21_decimal check = {{0x001, 0x0, 0x0, 0x10000}};
 
-s21_decimal check = {{0x0010, 0x0, 0x0, 0x0}};
+s21_decimal* decimal3 = malloc(sizeof(int)*4);
+
+
+// s21_decimal check = {{0xA7FFFC17, 0x9B5C85F2, 0x50C783EB, 0x1C0000}};
+
 // s21_big_decimal decimal2 = {{0,0,0,0,0,0,0}, 0};
-printf("%d", s21_is_less(decimal1,decimal2));
+// printf("%d", s21_is_less(decimal1,decimal2));
+s21_add(decimal1,decimal2, decimal3);
+// printf("%d",s21_is_equal(*decimal3,check));
+
+for(int i = 0; i<4;i++){
+    printf("%d\n", decimal3->bits[i]);
+}
+printf("\n --------------------------------------- \n check down \n");
+for(int j = 0; j<4;j++){
+    printf("%d\n", check.bits[j]);
+}
+
 
 // decimal2.scale = get_scale(decimal1);
 
