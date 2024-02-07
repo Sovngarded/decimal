@@ -12,7 +12,7 @@
 typedef struct 
 {
     uint64_t bits[7];
-    uint16_t scale;
+    uint64_t scale;
     // int sing;
 } s21_big_decimal;
 
@@ -28,6 +28,13 @@ enum bits {
     MID,
     HIGH,
     SCALE
+};
+
+enum ArithmeticErrorsCode {
+    OK,
+    INF,  // number is too large or equal to infinity
+    NEG_INF,  // the number is too small or equal to negative infinity
+    DIV_BY_ZERO
 };
 
 //Arithmetic Operators

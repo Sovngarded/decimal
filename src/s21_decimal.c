@@ -43,7 +43,6 @@ int get_scale(s21_decimal s21_decimal){
 //  int new = scale >>16;
  scale >>= 16;
  printf("get scale = %d",scale);
-
  return scale;
 //  printf("%d",scale);
 }
@@ -89,11 +88,17 @@ s21_big_decimal left_shift(s21_big_decimal big_number) {
     for(int i = 0; i < 7; i++) {
         copy_num.bits[i] *= 10;
     }
+    printf("\nbits = %LU\n", copy_num.bits[0]);
 
-    if(is_overflow(big_number) != TRUE) {
+    if(is_overflow(copy_num) != TRUE) {
         big_number.scale++;
         big_number = copy_num;
+        printf("\nbits bin num = %LU\n", big_number.bits[0]);
+
+        return big_number; // ???
+
     }
+    printf("OVERFLOW");
     return big_number; // ???
 }
 
@@ -125,10 +130,10 @@ int normalize_scale(s21_decimal value_1,s21_decimal value_2){
     int result = 0;
     int scale_1 = get_scale(value_1); int scale_2 = get_scale(value_2);
     
-    if(scale_1 > scale_2 && scale_1 <= 28) result = scale_1;
+    if(scale_1 > 28 || scale_2 > 28) result = 28;
+    else if(scale_1 > scale_2 && scale_1 <= 28) result = scale_1;
     // if(scale_1 > scale_2 && scale_1 > 28) result = 28;
-    if(scale_1 > 28 && scale_2 > 28) result = 28;
-    if(scale_1 < scale_2 && scale_2 <= 28) result = scale_2;
+    else if(scale_1 < scale_2 && scale_2 <= 28) result = scale_2;
     // if(scale_1 < scale_2 && scale_2 > 28) result = 28;
     printf("normalize scale = %d\n", result);
     return result;
@@ -178,14 +183,14 @@ s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int sca
 
     printf("\n\nset_scale_and_number\nscale = %d and new = %d", scale, scale_n);
     if(scale < scale_n){
-        for(int i = scale;i < scale_n;i++){
-            printf("left");
-            result = left_shift(value_1);
+        for(int i = scale; i <= scale_n; i++){
+            printf("left = %d", i);
+            result = left_shift(result);
         }
     } else if(scale > scale_n) {
         for(int i = scale;i >= scale_n;i--){
             printf("right");
-           result = right_shift_normal(value_1); 
+           result = right_shift_normal(result); 
         }
     }
 
@@ -207,24 +212,24 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
     if (is_zero(value_1) == TRUE) {
         printf("zerro");
         *result = value_2;
-    printf("result = %d %d %d %d =", result->bits[0], result->bits[1], result->bits[2], result->bits[3]);
+        printf("result = %d %d %d %d =", result->bits[0], result->bits[1], result->bits[2], result->bits[3]);
 
         return OK;
-    } else if (is_zero(value_2) == TRUE) 
-    {
+    } else if (is_zero(value_2) == TRUE) {
         printf("zerro");
         *result = value_1;
         return OK;
     }
-     printf("start val1 = %d %d %d %d =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.bits[3]);
+
+    printf("start val1 = %d %d %d %d =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.bits[3]);
     printf("start val2 = %d %d %d %d =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.bits[3]);
 
     int s = normalize_scale(value_1, value_2);
     value_big_1 = set_scale_and_number(value_big_1, get_scale(value_1), s);
     value_big_2 = set_scale_and_number(value_big_2, get_scale(value_2), s);
 
-    printf("\nval1 = %d %d %d %d =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.bits[3]);
-    printf("val2 = %d %d %d %d =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.bits[3]);
+    printf("\nval1 = %u %u %u %u =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.scale);
+    printf("val2 = %u %u %u %u =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.scale);
 
 
     if(s21_get_sign(value_1) == s21_get_sign(value_2)){
@@ -245,16 +250,22 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
         //return OK;
     }
 
-    
+    int sc = s <<= 16;
+    printf("s<<=16 = %d", sc);
+    result_big.scale = sc;
+    printf("result_big.scale = %d", result_big.scale);
 
-    //result_big.bits[3] = 0x80000000;
+    result_big.bits[3] = result_big.scale;
+    printf("result_big.bits[3] = %d", result_big.bits[3]);
+
+
     is_overflow_pointer(&result_big);
     
-    printf("result big = %d %d %d %d =\n", result_big.bits[0], result_big.bits[1], result_big.bits[2], result_big.bits[3]);
+    printf("result big = %LU %LU %LU %LU  =\n", result_big.bits[0], result_big.bits[1], result_big.bits[2], result_big.bits[3]);
     
     *result = convert_to_decimal(result_big);
 
-    printf("result = %d %d %d %d =", result->bits[0], result->bits[1], result->bits[2], result->bits[3]);
+    printf("result = %LU %LU %LU %LU  =", result->bits[0], result->bits[1], result->bits[2], result->bits[3]);
     ///*result = re
 
     return OK;                                                                                                                   
@@ -284,9 +295,6 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2){
     s21_big_decimal value_2_b = convert_to_big_decimal(value_2);
     int scale_1 = get_scale(value_1);
     int scale_2 = get_scale(value_2);
-
-
-
 
     int needed_scale = normalize_scale(value_1,value_2);
     value_1_b = set_scale_and_number(value_1_b, scale_1, needed_scale);
@@ -344,19 +352,17 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2){
 
 int main() {
 // --------------------- convert to big decimal -----------------------
-
-// 79228162514264337593543950334
-    s21_decimal decimal1 = {{0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF, 0x0}};
-    // 0.5
-    s21_decimal decimal2 = {{0x5, 0x0, 0x0, 0x10000}};
-    // 79228162514264337593543950334
-    s21_decimal check = {{0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF, 0x0}};
-
+// -0.5
+    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x80010000}};
+    // 26409387
+    s21_decimal decimal2 = {{0x192F9AB, 0x0, 0x0, 0x0}};
+    // 26409386.5
+    s21_decimal check = {{0xFBDC0A9, 0x0, 0x0, 0x10000}};
 
 s21_decimal* result = malloc(sizeof(s21_decimal)); 
 
 s21_add(decimal1, decimal2, result); 
-printf("\ncheck = %d %d %d =", check.bits[0], check.bits[1], check.bits[2]);
+printf("\ncheck = %d %d %d %d =", check.bits[0], check.bits[1], check.bits[2], check.bits[3]);
 
 ///printf("%d", s21_is_less(decimal1,decimal2));
 
