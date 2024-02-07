@@ -11,7 +11,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
         printf("zerro");
         *result = value_2;
         printf("result = %d %d %d %d =", result->bits[0], result->bits[1], result->bits[2], result->bits[3]);
-
         return OK;
     } else if (is_zero(value_2) == TRUE) {
         printf("zerro");
@@ -23,8 +22,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
     printf("start val2 = %d %d %d %d =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.bits[3]);
 
     int s = normalize_scale(value_1, value_2);
-    value_big_1 = set_scale_and_number(value_big_1, get_scale(value_1), s);
-    value_big_2 = set_scale_and_number(value_big_2, get_scale(value_2), s);
+    value_big_1 = set_scale_and_number(value_big_1, s21_get_scale(value_1), s);
+    value_big_2 = set_scale_and_number(value_big_2, s21_get_scale(value_2), s);
 
     printf("\nval1 = %u %u %u %u =\n", value_big_1.bits[0], value_big_1.bits[1], value_big_1.bits[2], value_big_1.scale);
     printf("val2 = %u %u %u %u =\n", value_big_2.bits[0], value_big_2.bits[1], value_big_2.bits[2], value_big_2.scale);
