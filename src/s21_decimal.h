@@ -2,6 +2,8 @@
 #define S21_DECIMAL_H
 #include <stdint.h>
 #include "stdint.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 #define MAX4BITE 0xffffffff
 #define MINUS 0x80000000
@@ -45,12 +47,12 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 //Comparison Operators
-int s21_is_less(s21_decimal value_1, s21_decimal value_2);
-int s21_is_less_or_equal(s21_decimal, s21_decimal);
-int s21_is_greater(s21_decimal, s21_decimal);
-int s21_is_greater_or_equal(s21_decimal, s21_decimal);
-int s21_is_equal(s21_decimal, s21_decimal);
-int s21_is_not_equal(s21_decimal, s21_decimal);
+int s21_is_less(s21_decimal value_1, s21_decimal value_2);  // done
+int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);  // done
+int s21_is_greater(s21_decimal value_1, s21_decimal value_2);  // done 
+int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);  // done
+int s21_is_equal(s21_decimal value_1, s21_decimal value_2);  // done
+int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);  // done
 
 //Convertors and parsers
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
@@ -84,8 +86,12 @@ int normalize_scale(s21_decimal value_1,s21_decimal value_2);
 s21_big_decimal set_scale_and_number(s21_big_decimal value_1, int scale, int scale_n);
 
 int is_overflow(s21_big_decimal big_number);
+int is_overflow_pointer(s21_big_decimal* big_number);
 
 s21_big_decimal right_shift_normal(s21_big_decimal big_number);
 s21_big_decimal left_shift(s21_big_decimal big_number);
+
+
+int is_zero(s21_decimal number);
 
 #endif  //S21_DECIMAL_H

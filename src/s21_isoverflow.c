@@ -13,3 +13,4 @@ int is_overflow(s21_big_decimal big_number) {
     }
     return result;
 }
+

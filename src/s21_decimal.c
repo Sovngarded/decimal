@@ -1,3 +1,5 @@
+
+
 #include <stdio.h>
 #include "s21_decimal.h"
 #include <math.h>
@@ -61,21 +63,25 @@ void s21_set_sign(s21_decimal *number, int sign) {
 // // printf("%d", new_scale); 
 
 int main() {
-// --------------------- convert to big decimal -----------------------
-// -0.5
-    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x80010000}};
-    // 26409387
-    s21_decimal decimal2 = {{0x192F9AB, 0x0, 0x0, 0x0}};
-    // 26409386.5
-    s21_decimal check = {{0xFBDC0A9, 0x0, 0x0, 0x10000}};
+     s21_decimal decimal1 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
+//     // 7922816251426433759354395033
+    s21_decimal decimal2 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
+    int res = s21_is_less(decimal1, decimal2);
+    printf("result = %d", res);
+// // 0.5
+//     s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x10000}};
+//     // 7922816251426433759354395033
+//     s21_decimal decimal2 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
+//     // 7922816251426433759354395033.5
+//     s21_decimal check = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x10000}};
 
-s21_decimal* result = malloc(sizeof(s21_decimal)); 
 
-s21_add(decimal1, decimal2, result); 
-printf("\ncheck = %d %d %d %d =", check.bits[0], check.bits[1], check.bits[2], check.bits[3]);
+// s21_decimal* result = malloc(sizeof(s21_decimal)); 
+
+// s21_add(decimal1, decimal2, result); 
+// printf("\ncheck =  %LU %LU %LU %LU  =", check.bits[0], check.bits[1], check.bits[2], check.bits[3]);
 
 }
-
 
 // --------------------- decimal to int -----------------------
 // s21_decimal decimal1 = {{0002, 0002, 0, 0x140000}};
