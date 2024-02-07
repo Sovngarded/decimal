@@ -1,5 +1,5 @@
 #include "s21_decimal.h"
-
+#include <stdio.h>
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
 
@@ -56,7 +56,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
     printf("result_big.bits[3] = %d", result_big.bits[3]);
 
 
-    is_overflow_pointer(&result_big);
+    // is_overflow_pointer(&result_big);
     
     printf("result big = %LU %LU %LU %LU  =\n", result_big.bits[0], result_big.bits[1], result_big.bits[2], result_big.bits[3]);
     

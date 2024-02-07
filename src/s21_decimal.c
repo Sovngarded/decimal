@@ -65,7 +65,7 @@ int main() {
 // -0.5
     s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x80010000}};
     // 26409387
-    s21_decimal decimal2 = {{0x192F9AB, 0x0, 0x0, 0x0}};
+    s21_decimal decimal2 = {{1, 0x0, 0x0, 0x0}};
     // 26409386.5
     s21_decimal check = {{0xFBDC0A9, 0x0, 0x0, 0x10000}};
 
