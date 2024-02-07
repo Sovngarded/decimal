@@ -34,18 +34,19 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
             result_big.bits[i] = value_big_1.bits[i] + value_big_2.bits[i];
         }
         //return OK;
-    } else {
-        if(s21_is_less(value_1, value_2) == TRUE) {
-            for(int i=0; i < 3; i++) {
-                result_big.bits[i] = value_big_2.bits[i] - value_big_1.bits[i];
+    } else{ 
+            for(int i = 0;i<3;i++){
+                if(value_1.bits[i] > value_big_2.bits[i]){ 
+
+                    result->bits[i] = value_big_1.bits[i] - value_big_2.bits[i];
+
+
+                } else {
+                    result->bits[i] = value_big_2.bits[i] - value_big_1.bits[i];
+                }
+
+                }
             }
-        } else {
-            for(int i=0; i < 3; i++) {
-                result_big.bits[i] = value_big_1.bits[i] - value_big_2.bits[i];
-            }
-        }
-        //return OK;
-    }
 
     int sc = s <<= 16;
     printf("s<<=16 = %d", sc);
