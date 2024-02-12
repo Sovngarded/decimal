@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include "s21_decimal.h"
 #include <math.h>
@@ -9,20 +7,20 @@
 #define TRUE 1
 
 
-int s21_get_sign(s21_decimal number) {
-        int sign = number.bits[SCALE] & MINUS;
-        return sign;
-    }
+// int s21_get_sign(s21_decimal number) {
+//         int sign = number.bits[SCALE] & MINUS;
+//         return sign;
+//     }
 
 
-void s21_set_sign(s21_decimal *number, int sign) {
-    if(sign == 1){
-        number->bits[SCALE] |= MINUS;
-    }
-    if(sign == 0){
-        number->bits[SCALE] &= ~MINUS;
-    }
-}
+// void s21_set_sign(s21_decimal *number, int sign) {
+//     if(sign == 1){
+//         number->bits[SCALE] |= MINUS;
+//     }
+//     if(sign == 0){
+//         number->bits[SCALE] &= ~MINUS;
+//     }
+// }
 
 // void s21_set_bit(int *number, int bit_position, int bit) {
 //     int mask = 1; 
@@ -62,22 +60,20 @@ void s21_set_sign(s21_decimal *number, int sign) {
 // printf("\n%d", scale >> 16); 
 // // printf("%d", new_scale); 
 
-int main() {
-// --------------------- convert to big decimal -----------------------
-// -0.5
-    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x80010000}};
-    // 26409387
-    s21_decimal decimal2 = {{1, 0x0, 0x0, 0x0}};
-    // 26409386.5
-    s21_decimal check = {{0xFBDC0A9, 0x0, 0x0, 0x10000}};
+// int main() {
 
+//    // -1431655765.000000000000000001
+//     s21_decimal decimal1 = {{0xC8340001, 0x8881186E, 0x4A03CE6, 0x80120000}};
+//     // -1431655764.999999999999999999
+//     s21_decimal decimal2 = {{0xC833FFFF, 0x8881186E, 0x4A03CE6, 0x80120000}};
+//     // int check = TEST_COMPARISON_TRUE;
 
-// s21_decimal* result = malloc(sizeof(s21_decimal)); 
+//     int res = s21_is_less(decimal1, decimal2);
+//     printf("%lu and %lu = %d", decimal1.bits[1], decimal2.bits[3], res);
 
-// s21_add(decimal1, decimal2, result); 
-// printf("\ncheck =  %LU %LU %LU %LU  =", check.bits[0], check.bits[1], check.bits[2], check.bits[3]);
+//     return 0;
 
-}
+// }
 
 // --------------------- decimal to int -----------------------
 // s21_decimal decimal1 = {{0002, 0002, 0, 0x140000}};

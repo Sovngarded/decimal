@@ -17,12 +17,43 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2){
 
     int sign_1 = s21_get_sign(value_1);
     int sign_2 = s21_get_sign(value_2);
-    if(sign_1 == sign_2) { 
-        for(int i = 3;i >= 0; i--){
-            if(value_1_b.bits[i] >= value_2_b.bits[i]){
-                result = FALSE;
-                break;
+    
+    int flag = TRUE;
+    for(int i = 6; i >= 0; i--) {
+            if (value_1_b.bits[i] != 0 || value_2_b.bits[i] != 0) {
+                flag = FALSE;
             }
+        }
+        if (flag == TRUE) {
+            return FALSE; 
+        }
+
+    if(sign_1 == sign_2) { 
+        for(int i = 6; i >= 0; i--){
+            if (value_1_b.bits[i] != 0 || value_2_b.bits[i] != 0) {
+                if(value_1_b.bits[i] > value_2_b.bits[i]) {
+                    result = FALSE;
+                    if(sign_1 == 1) {
+                        result = TRUE;
+                    }
+                    break;
+                } else if (sign_1 == 1 ) {
+                    result = FALSE;
+                    break;
+                } else if (sign_1 == 0 && value_1_b.bits[i] != value_2_b.bits[i]) {
+                    result = TRUE;
+                    break;
+                }
+            } 
+            // else if (value_1_b.bits[i] != value_2_b.bits[i]) {
+            //         if (sign_1 == 1 )
+            //         {
+            //             result = FALSE;
+            //         } else if (sign_1 == 0) {
+            //             result = TRUE;
+            //         }
+            //         break;
+            //     } 
         }
     } else {
         if (sign_1 == 0) {

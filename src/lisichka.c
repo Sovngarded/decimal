@@ -89,13 +89,14 @@ int right_shift(s21_big_decimal* big_number) {
     return remainder;
 }
 
-int main() {
-    // 0.00000
-    s21_decimal decimal2 = {{0x0, 0x0, 0x0, 0x50000}};
-    // 0
-    s21_decimal check = {{0x0, 0x0, 0x0, 0x0}};
+// int main() {
+//     // 0.00000
+//     s21_decimal decimal2 = {{0x0, 0x0, 0x0, 0x50000}};
+//     // 0
+//     s21_decimal check = {{0x0, 0x0, 0x0, 0x0}};
 
-    s21_decimal number = {{0x55555555, 0x55555555, 0x0, 0x80000000}};
-    printf("%d\n", s21_get_bit(number, 5));
-    return 0;
-}
+//     s21_decimal number = {{0x55555555, 0x55555555, 0x0, 0x80000000}};
+//     printf("%d\n", s21_get_bit(number, 5));
+//     return 0;
+// }
+

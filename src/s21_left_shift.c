@@ -36,7 +36,8 @@ int is_overflow_pointer(s21_big_decimal* big_number) {
 
 
 s21_big_decimal left_shift(s21_big_decimal big_number) {
-     s21_big_decimal copy_num = big_number;
+     s21_big_decimal copy_num = {{0,0,0,0,0,0,0}, 0};
+    copy_num = big_number;
     for(int i = 0; i < 7; i++) {
         copy_num.bits[i] *= 10;
     }

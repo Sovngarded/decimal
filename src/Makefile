@@ -14,9 +14,9 @@ all: gcov_report
 
 $(TARGET): 
 	$(CC) ${CFLAGS} -c ${FILES}
-	ar rc libs21_string.a s21*.o
-	ranlib libs21_string.a
-	cp libs21_string.a s21_decimal.a
+	ar rc libs21_decimal.a s21*.o
+	ranlib libs21_decimal.a
+	cp libs21_decimal.a s21_decimal.a
 
 test: $(TARGET)
 	$(CC) test.c ${CFLAGS} ${FILES} ${FILE_TESTS} s21_decimal.h ${TEST_FLAGS} -o s21_decimal --coverage
