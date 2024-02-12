@@ -1,6 +1,4 @@
-
 #include "s21_decimal.h"
-
 s21_big_decimal right_shift_normal(s21_big_decimal big_number) {
     long int remainder = 0;
     for(int i = 6; i < 0; i--) {

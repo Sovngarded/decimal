@@ -1,7 +1,7 @@
 #include "s21_decimal.h"
 #include <stdio.h>
 
-// int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result){
 
 //     s21_big_decimal value_big_1 = convert_to_big_decimal(value_1);
 //     s21_big_decimal value_big_2 = convert_to_big_decimal(value_2);
@@ -101,8 +101,32 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         for(int i=0; i < 3; i++) {
             result_big.bits[i] = value_big_1.bits[i] + value_big_2.bits[i];
         }
-    } 
+        //return OK;
+    } else{ 
+            for(int i = 0;i<3;i++){
+                if(value_1.bits[i] > value_big_2.bits[i]){ 
 
+                    result->bits[i] = value_big_1.bits[i] - value_big_2.bits[i];
+
+
+                } else {
+                    result->bits[i] = value_big_2.bits[i] - value_big_1.bits[i];
+                }
+
+                }
+            }
+
+    int sc = s <<= 16;
+    printf("s<<=16 = %d", sc);
+    result_big.scale = sc;
+    printf("result_big.scale = %d", result_big.scale);
+
+    result_big.bits[3] = result_big.scale;
+    printf("result_big.bits[3] = %d", result_big.bits[3]);
+
+
+    // is_overflow_pointer(&result_big);
+    
     printf("result big = %LU %LU %LU %LU  =\n", result_big.bits[0], result_big.bits[1], result_big.bits[2], result_big.bits[3]);
 
     return OK;

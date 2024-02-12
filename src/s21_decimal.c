@@ -63,17 +63,13 @@ void s21_set_sign(s21_decimal *number, int sign) {
 // // printf("%d", new_scale); 
 
 int main() {
-     s21_decimal decimal1 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
-//     // 7922816251426433759354395033
-    s21_decimal decimal2 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
-    int res = s21_is_less(decimal1, decimal2);
-    printf("result = %d", res);
-// // 0.5
-//     s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x10000}};
-//     // 7922816251426433759354395033
-//     s21_decimal decimal2 = {{0x99999999, 0x99999999, 0x19999999, 0x0}};
-//     // 7922816251426433759354395033.5
-//     s21_decimal check = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x10000}};
+// --------------------- convert to big decimal -----------------------
+// -0.5
+    s21_decimal decimal1 = {{0x5, 0x0, 0x0, 0x80010000}};
+    // 26409387
+    s21_decimal decimal2 = {{1, 0x0, 0x0, 0x0}};
+    // 26409386.5
+    s21_decimal check = {{0xFBDC0A9, 0x0, 0x0, 0x10000}};
 
 
 // s21_decimal* result = malloc(sizeof(s21_decimal)); 
