@@ -6,7 +6,7 @@ int normalize_scale(s21_decimal value_1,s21_decimal value_2){
     
     if(scale_1 > scale_2 && scale_1 <= 28) result = scale_1;
     // if(scale_1 > scale_2 && scale_1 > 28) result = 28;
-    if(scale_1 > 28 && scale_2 > 28) result = 28;
+    if(scale_1 > 28 || scale_2 > 28) result = 28;
     if(scale_1 < scale_2 && scale_2 <= 28) result = scale_2;
     // if(scale_1 < scale_2 && scale_2 > 28) result = 28;
 

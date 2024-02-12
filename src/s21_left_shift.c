@@ -1,13 +1,17 @@
 #include "s21_decimal.h"
-s21_big_decimal left_shift(s21_big_decimal big_number) {
-     s21_big_decimal copy_num = big_number;
-    for(int i = 0; i < 7; i++) {
-        copy_num.bits[i] *= 10;
-    }
+int left_shift(s21_big_decimal *big_number) {
+    s21_big_decimal temp_dec = *big_number;
+  for (int i = 0; i < 7; i++) {
+    temp_dec.bits[i] *= 10;
+  }
+  temp_dec.scale++;
+  int overflowed = 0;
 
-    if(is_overflow(big_number) != TRUE) {
-        big_number.scale++;
-        big_number = copy_num;
-    }
-    return big_number; // ???
+ 
+  if (is_overflow(&temp_dec)) {
+    overflowed = 1;
+  } else {
+    *big_number = temp_dec;
+  }
+  return overflowed;
 }

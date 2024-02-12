@@ -80,14 +80,22 @@ int s21_get_sign(s21_decimal number) {
 // // printf("%d", new_scale); 
 
 int main(){
-// --------------------- convert to big decimal -----------------------
 
- // 1
-    s21_decimal decimal1 = {{0x1, 0x0, 0x0, 0x0}};
-    // 0.5
-    s21_decimal decimal2 = {{0x5, 0x0, 0x0, 0x10000}};
-    // 1.5
-    s21_decimal check = {{0xF, 0x0, 0x0, 0x10000}};
+
+    unsigned int x = 5;
+    printf("%d\n",x);
+    x = (x << 3) + (x << 1);
+    printf("%d\n",x);
+
+
+// --------------------- convert to big decimal -----------------------
+  // -8
+    s21_decimal decimal1 = {{0x8, 0x0, 0x0, 0x80000000}};
+    // 3.6336660283201536
+    s21_decimal decimal2 = {{0x811800, 0x811800, 0x0, 0x100000}};
+    // -4.3663339716798464
+    s21_decimal check = {{0x7D86E800, 0x9B1F93, 0x0, 0x80100000}};
+
 
 s21_decimal* decimal3 = malloc(sizeof(int)*4);
 
@@ -100,11 +108,21 @@ s21_add(decimal1,decimal2, decimal3);
 // printf("%d",s21_is_equal(*decimal3,check));
 
 for(int i = 0; i<4;i++){
-    printf("%d\n", decimal3->bits[i]);
+    printf("%ld\n", decimal3->bits[i]);
 }
+printf("\n");
+
+for(int i = 0; i<4;i++){
+    printf(" %ld                                      %ld\n", decimal1.bits[i], decimal2.bits[i]);
+}
+
+
+
+
+
 printf("\n --------------------------------------- \n check down \n");
 for(int j = 0; j<4;j++){
-    printf("%d\n", check.bits[j]);
+    printf("%ld\n", check.bits[j]);
 }
 
 

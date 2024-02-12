@@ -7,8 +7,8 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2){
 
     s21_big_decimal value_1_b = convert_to_big_decimal(value_1);
     s21_big_decimal value_2_b = convert_to_big_decimal(value_2);
-    int scale_1 = get_scale(value_1);
-    int scale_2 = get_scale(value_2);
+    int scale_1 = s21_get_scale(value_1);
+    int scale_2 = s21_get_scale(value_2);
 
 
 
