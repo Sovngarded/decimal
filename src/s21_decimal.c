@@ -62,14 +62,13 @@
 
 // int main() {
 
-//    // -1431655765.000000000000000001
+//       // -1431655765.000000000000000001
 //     s21_decimal decimal1 = {{0xC8340001, 0x8881186E, 0x4A03CE6, 0x80120000}};
 //     // -1431655764.999999999999999999
 //     s21_decimal decimal2 = {{0xC833FFFF, 0x8881186E, 0x4A03CE6, 0x80120000}};
-//     // int check = TEST_COMPARISON_TRUE;
 
 //     int res = s21_is_less(decimal1, decimal2);
-//     printf("%lu and %lu = %d", decimal1.bits[1], decimal2.bits[3], res);
+//     printf("%lu and %lu = %d", decimal1.bits[LOW], decimal2.bits[LOW], res);
 
 //     return 0;
 

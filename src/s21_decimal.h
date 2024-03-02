@@ -92,5 +92,6 @@ s21_big_decimal right_shift_normal(s21_big_decimal big_number);
 s21_big_decimal left_shift(s21_big_decimal big_number);
 
 int is_zero(s21_decimal number);
-int is_overflow(s21_big_decimal big_number);
+int is_zero_big(s21_big_decimal big_number);
+
 #endif  //S21_DECIMAL_H

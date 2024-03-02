@@ -21,7 +21,6 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2){
 
         for(int i = 0; i < 3;i++){
             if(value_1_b.bits[i] != value_2_b.bits[i]) {
-                printf("HERE");
                 result = FALSE;
                 break;
             }
