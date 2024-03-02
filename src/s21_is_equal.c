@@ -16,9 +16,6 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2){
     int sign_1 = s21_get_sign(value_1);
     int sign_2 = s21_get_sign(value_2);
     if(sign_1 == sign_2) {
-        printf("- SCALE1 %d\n", value_1_b.bits[3] && SCALEBITE);
-        printf("- SCALE2 %d\n", value_2_b.bits[3] && SCALEBITE);
-
         for(int i = 0; i < 3;i++){
             if(value_1_b.bits[i] != value_2_b.bits[i]) {
                 result = FALSE;
